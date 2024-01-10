@@ -192,3 +192,7 @@ pyrightconfig.json
 # End of https://www.toptal.com/developers/gitignore/api/python
 
 # End of https://www.toptal.com/developers/gitignore/api/venv
+
+.env
+
+firestore-practice-f696b-1d06f8ad4124.json
