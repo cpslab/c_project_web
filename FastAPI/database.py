@@ -7,8 +7,8 @@ from dotenv import load_dotenv
 from google.cloud.firestore import GeoPoint
 
 load_dotenv()
-DATABASE_KEY=os.getenv("DATABASE_KEY")
-cred = credentials.Certificate(DATABASE_KEY)
+#DATABASE_KEY=os.getenv("DATABASE_KEY")
+cred = credentials.Certificate("/etc/secrets/c-term-78b7ef5d44fa.json")
 app = firebase_admin.initialize_app(cred)
 db = firestore.client()
 
@@ -78,6 +78,24 @@ def fetch_players(room_name:str) -> List:
     for doc in player_docs:
         players.append(doc.to_dict())
     return players
+
+def create_simple_location(latitude,longitude) -> dict:
+    update_time,simple_location_ref = db.collection("simple_locations").add({"location":GeoPoint(latitude,longitude)})
+    return simple_location_ref.get().to_dict()
+
+def fetch_simple_locations() -> List:
+    locations = []
+    simple_location_ref = db.collection("simple_locations")
+    simple_location_docs = simple_location_ref.stream()
+    for doc in simple_location_docs:
+        doc_dict = doc.to_dict()
+        doc_dict["id"] = doc.id
+        locations.append(doc_dict)
+    return locations
+
+def remove_simple_location(id) -> bool:
+    db.collection("simple_locations").document(id).delete()
+    return True
 
 
 

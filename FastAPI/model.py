@@ -13,6 +13,10 @@ class Room(BaseModel):
 class Base_player(BaseModel):
     name:str
 
+class Location(BaseModel):
+    longitude:float
+    latitude:float
+
 class Player(Base_player):
     number_of_discovery:int = 0
 
